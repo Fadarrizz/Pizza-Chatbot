@@ -9,7 +9,7 @@ Ordering a pizza by browsing an app and its menu can be time consuming and not a
 ## Solution
 By providing a simpler way for users to place and track using natural conversations, users can interact more intuitively and in a more productive manner, which will benefit customer commitment.
 
-![Sketch](/doc/sketch.png)
+![Sketch](/doc/sketch.jpg)
 
 ### Main features
 Ordering:
