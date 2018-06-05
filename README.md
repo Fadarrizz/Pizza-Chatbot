@@ -39,9 +39,9 @@ All the ordering features will be implemented in the MVP.
 - [BubbleView](https://github.com/lguipeng/BubbleView)
 
 ### Review
-Some apps make use of existing chatbots. They create the messenger funtions and implement the chatbot.
+Some apps make use of existing chatbots. They create the messenger functions and implement the chatbot.
 Other apps that have their own chatbots are mostly from big companies that provide advanced bots.
 Dominos, for instance, also used Dialogflow to create their chatbot. But they also implemented machine learning to listen for certain keywords. That is a step to far for me.
 
 ### Hardest parts
-I have never used or created a chatbot. How this will go is very uncertain. The creation of the bot could take more than than I imagined, the implementation of the bot could be difficult, and the triggers for showing the right options when a choice has been made could be hard to code. That, and making sure that the user does not get to see any weird replies.
+I have never used or created a chatbot. How this will go is very uncertain. The creation of the bot could take more than I imagined, the implementation of the bot could be difficult, the triggers for showing the right options when a choice has been made could be hard to code, and making sure that the user does not get to see any weird replies could be a difficulty.
