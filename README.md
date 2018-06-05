@@ -7,7 +7,7 @@ This is an app for for placing and tracking pizza orders via a chatbot.
 Ordering a pizza by browsing an app and its menu can be time consuming and not always as easy for users, especially if the UI is not user-friendly. Users are required to learn how an app has to be used, which can be difficult and can take some time. User interaction and customer commitment, as well as sales can be improved if a more natural and easy to use way of ordering and tracking is provided.
 
 ## Solution
-By providing a simpler way for users to place and track using natural conversations, users can interact more intuitively and in a more productive manner, which will benefit customer commitment.
+By providing a simpler way for users to place and track orders using natural conversations, users can interact more intuitively and in a more productive manner, which will benefit customer commitment.
 
 ![Sketch](/doc/sketch.jpg)
 
