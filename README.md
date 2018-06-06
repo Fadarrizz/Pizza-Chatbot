@@ -9,7 +9,8 @@ Ordering a pizza by browsing an app and its menu can be time consuming and not a
 ## Solution
 By providing a simpler way for users to place and track orders using natural conversations, users can interact more intuitively and in a more productive manner, which will benefit customer commitment.
 
-![Sketch](/doc/sketch.jpg)
+![Ordering sketch](/doc/ordering.png)
+![Tracking sketch](/doc/Tracking.PNG)
 
 ### Main features
 Ordering:
@@ -18,10 +19,10 @@ Ordering:
 - Choose desired delivering or take-out time
 
 Tracking:
-- Know who is making your pizza 
 - Know when the pizza is being made
 - Know if your pizza is on the way
 - Know when the pizza arrives
+- See where the courier is on a map
 
 ### Minimum viable product (MVP)
 All the ordering features will be implemented in the MVP.
@@ -36,7 +37,8 @@ All the ordering features will be implemented in the MVP.
 ### External components
 - Firebase
 - [Dialogflow](https://dialogflow.com/)
-- [BubbleView](https://github.com/lguipeng/BubbleView)
+- [Transport Tracker](https://developers.google.com/maps/solutions/transport-tracker/)
+- [ChatMessageView](https://github.com/bassaer/ChatMessageView)
 
 ### Review
 Some apps make use of existing chatbots. They create the messenger functions and implement the chatbot.
