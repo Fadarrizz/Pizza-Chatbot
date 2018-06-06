@@ -2,12 +2,12 @@
 This document describes how Pizza-Chatbot has been designed.
 
 ## Advanced sketches
-![SignIn sketch](/doc/signIn.png)
-![Ordering sketch](/doc/Ordering.png)
-![Tracking sketch](/doc/Tracking.png)
+![SignIn sketch](/doc/signIn.PNG)
+![Ordering sketch](/doc/ordering.png)
+![Tracking sketch](/doc/Tracking.PNG)
 
 ## Class diagrams
-![diagram](/doc/diagram.png)
+![diagram](/doc/diagram.PNG)
 
 ## APIs and Libraries
 - [Dialogflow](https://dialogflow.com/)
