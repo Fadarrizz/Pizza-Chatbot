@@ -7,15 +7,21 @@ This document describes how Pizza-Chatbot has been designed.
 ## Class diagrams
 ![diagram](/doc/class_diagram.jpg)
 
-## APIs and Frameworks
+## APIs and Libraries
 - [Dialogflow](https://dialogflow.com/)
-- [BubbleView](https://github.com/lguipeng/BubbleView)
+- [Fuel](https://github.com/kittinunf/Fuel)
+- [ChatMessageView](https://github.com/bassaer/ChatMessageView)
 
 ## Data sources
 - Dialogflow:
   - Responses
   
 ## Database tables and fields
+- Order
+  - USERNAME
+    - PIZZA
+    - 
+
 - Pizza's
   - Margherita STRING
     - name STRING
