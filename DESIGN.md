@@ -17,14 +17,18 @@ This document describes how Pizza-Chatbot has been designed.
 ## Data sources
 - Dialogflow:
   - Responses
+- Firebase:
+  - users
+  - order
+  - pizzas
   
 ## Database tables and fields
 - Order
   - username
-    - ordered STRING
+    - order_details STRING
     - creation_time STRING
 
-- Pizza's
+- Pizzas
   - Margherita STRING
     - name STRING
     - price INTEGER
