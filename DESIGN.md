@@ -3,8 +3,20 @@ This document describes how Pizza-Chatbot has been designed.
 
 ## Advanced sketches
 ![SignIn sketch](/doc/signIn.PNG)
+
+The SignIn activity will make use of Firebase's authentication database.
+You will be able to sign in with your Google account.
+
+#### <em>Both Ordering and Tracking will receive requests and return responses with Dialogflow</em>
+
 ![Ordering sketch](/doc/ordering.png)
+Besides Dialogflow, the Ordering activity will make use of a custom created database in Firebase for getting pizzas and extras.
+
+
 ![Tracking sketch](/doc/Tracking.PNG)
+Besides Dialogflow, the Tracking activity will make use of a Firebase database and will receive order details.
+It also will make use of Google's Transport Tracker API.
+
 
 ## Class diagrams
 ![diagram](/doc/diagram.PNG)
