@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "439730158887",
+    "firebase_url": "https://pizza-854f0.firebaseio.com",
+    "project_id": "pizza-854f0",
+    "storage_bucket": "pizza-854f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439730158887:android:3149e83cda309628",
+        "android_client_info": {
+          "package_name": "fadarrizz.pizzachatbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439730158887-p9q441e6icsr4afbmtorc70brsbm17gc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fadarrizz.pizzachatbot",
+            "certificate_hash": "c05af49849fd1b7cd69978bea0e50f501b52944f"
+          }
+        },
+        {
+          "client_id": "439730158887-72n651fof8f8cip8jv76mqnjfvuorul4.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "439730158887-72n651fof8f8cip8jv76mqnjfvuorul4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKUGtb7nwTGY8D7miYfvUQFxriz8HI61s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439730158887-72n651fof8f8cip8jv76mqnjfvuorul4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
