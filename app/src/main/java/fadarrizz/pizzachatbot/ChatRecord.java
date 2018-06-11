@@ -11,7 +11,7 @@ public class ChatRecord extends RecyclerView.ViewHolder {
     public ChatRecord(View itemView) {
         super(itemView);
 
-        leftText = (TextView)itemView.findViewById(R.id.leftText);
-        rightText = (TextView)itemView.findViewById(R.id.rightText);
+        leftText = (TextView)itemView.findViewById(R.id.message_bot);
+        rightText = (TextView)itemView.findViewById(R.id.message_user);
     }
 }

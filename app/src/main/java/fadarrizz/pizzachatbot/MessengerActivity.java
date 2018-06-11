@@ -18,9 +18,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,24 +36,32 @@ import ai.api.AIServiceException;
 import ai.api.android.AIConfiguration;
 import ai.api.android.AIService;
 import ai.api.model.AIError;
+import ai.api.model.AIOutputContext;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
+import fadarrizz.pizzachatbot.Adapter.MessageAdapter;
 import fadarrizz.pizzachatbot.Model.ChatMessage;
 
-public class MessengerActivity extends AppCompatActivity implements AIListener, View.OnClickListener {
+public class MessengerActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MessengerActivity";
 
     RecyclerView recyclerView;
-    ImageButton addButton;
+    RelativeLayout addButton;
     DatabaseReference databaseReference;
     FirebaseRecyclerAdapter<ChatMessage,ChatRecord> adapter;
     private TextView editText;
 
-    private AIService aiService;
     private AIRequest aiRequest;
     private AIDataService aiDataService;
+
+    RelativeLayout buttonLayout;
+    Button nonVegButton;
+    Button vegButton;
+
+
+    AIOutputContext context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,7 @@ public class MessengerActivity extends AppCompatActivity implements AIListener, 
         recyclerView = findViewById(R.id.recyclerView);
         editText = findViewById(R.id.editText);
         addButton = findViewById(R.id.addButton);
+        buttonLayout = findViewById(R.id.buttonLayout);
 
         recyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -70,15 +81,14 @@ public class MessengerActivity extends AppCompatActivity implements AIListener, 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.keepSynced(true);
 
+        // Empty chat node
+        databaseReference.child("chat").removeValue();
+
         // Dialogflow token
         String CLIENT_ACCESS_TOKEN = "256b5853978f475cacc91ed47c96cb60";
         final AIConfiguration config = new AIConfiguration(CLIENT_ACCESS_TOKEN,
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
-
-        // Setup Dialogflow
-        aiService = AIService.getService(this, config);
-        aiService.setListener(this);
 
         aiDataService = new AIDataService(config);
         aiRequest = new AIRequest();
@@ -86,7 +96,7 @@ public class MessengerActivity extends AppCompatActivity implements AIListener, 
         addButton.setOnClickListener(this);
 
         /**
-         * Set visibilty on message
+         * Create new adapter
          */
         adapter = new FirebaseRecyclerAdapter<ChatMessage, ChatRecord>(
                 ChatMessage.class, R.layout.message_list,
@@ -130,7 +140,15 @@ public class MessengerActivity extends AppCompatActivity implements AIListener, 
 
     @Override
     public void onClick(View v) {
-        String message = editText.getText().toString().trim();
+        String message = "";
+
+        if (v == addButton) {
+            message = editText.getText().toString().trim();
+        } else if (v == nonVegButton) {
+            message = "Non-vegetarian";
+        } else if (v == vegButton) {
+            message = "Vegetarian";
+        }
 
         if (!message.equals("")) {
 
@@ -159,51 +177,29 @@ public class MessengerActivity extends AppCompatActivity implements AIListener, 
                         String reply = result.getFulfillment().getSpeech();
                         ChatMessage chatMessage = new ChatMessage(reply, "bot");
                         databaseReference.child("chat").push().setValue(chatMessage);
+
+                        context = result.getContext("awaiting_pizza_type");
+                        if (context != null) {
+                            getPizzaType();
+                        }
+
                     }
                 }
             }.execute(aiRequest);
-        } else {
-            aiService.startListening();
         }
         // Empty textView
         editText.setText("");
+
+        buttonLayout.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onResult(AIResponse response) {
-        Result result = response.getResult();
+    public void getPizzaType() {
 
-        String message = result.getResolvedQuery();
-        ChatMessage chatMessage = new ChatMessage(message, "user");
-        databaseReference.child("chat").setValue(chatMessage);
+        buttonLayout.setVisibility(View.VISIBLE);
 
-        String reply = result.getFulfillment().getSpeech();
-        ChatMessage chatMessage1 = new ChatMessage(reply, "bot");
-        databaseReference.push().setValue(chatMessage1);
-    }
-
-    @Override
-    public void onError(AIError error) {
-
-    }
-
-    @Override
-    public void onAudioLevel(float level) {
-
-    }
-
-    @Override
-    public void onListeningStarted() {
-
-    }
-
-    @Override
-    public void onListeningCanceled() {
-
-    }
-
-    @Override
-    public void onListeningFinished() {
-
+        nonVegButton = findViewById(R.id.nonVegButton);
+        nonVegButton.setOnClickListener(this);
+        vegButton = findViewById(R.id.vegButton);
+        vegButton.setOnClickListener(this);
     }
 }

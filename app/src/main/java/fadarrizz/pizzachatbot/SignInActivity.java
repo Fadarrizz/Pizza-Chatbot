@@ -46,6 +46,8 @@ import com.google.firebase.database.ValueEventListener;
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_sign_in);
 
+            //Todo: Link auth users to database
+
 //            database = FirebaseDatabase.getInstance();
 //            users = database.getReference("Users");
 
