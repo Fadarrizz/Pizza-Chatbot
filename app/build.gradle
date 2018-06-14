@@ -37,6 +37,9 @@ dependencies {
     implementation 'com.github.bassaer:chatmessageview:1.10.0'
     implementation 'ai.api:sdk:2.0.7@aar'
     implementation 'ai.api:libai:1.6.12'
+    implementation 'com.android.support:design:27.+'
+    implementation 'com.android.support:cardview-v7:27.+'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.android.application'

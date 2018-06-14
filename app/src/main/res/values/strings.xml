@@ -3,4 +3,7 @@
     <string name="input_hint">Type a message</string>
     <string name="nonVeg">Non-veg</string>
     <string name="Veg">Veg</string>
+    <string name="Price">€ %1$s</string>
+    <string name="action_clear_log">Clear message log</string>
+    <string name="action_sign_out">Sign out</string>
 </resources>

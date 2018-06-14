@@ -27,31 +27,38 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import fadarrizz.pizzachatbot.Helpers.Helpers;
+import fadarrizz.pizzachatbot.Model.User;
+
     public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
         private static final String TAG = "SignInActivity";
         private static final int RC_SIGN_IN = 9001;
 
-//        FirebaseDatabase database;
-//        DatabaseReference users;
+        FirebaseDatabase database;
+        DatabaseReference users, chats;
 
         private GoogleSignInClient mGoogleSignInClient;
         private FirebaseAuth mAuth;
+        private SignInButton signInButton;
 
         private long onBackPressedTime;
         private Toast backToast;
+        private View parentLayout;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_sign_in);
+            parentLayout = findViewById(android.R.id.content);
 
             //Todo: Link auth users to database
 
-//            database = FirebaseDatabase.getInstance();
-//            users = database.getReference("Users");
+            database = FirebaseDatabase.getInstance();
+            users = database.getReference("users");
+            chats = database.getReference("chats");
 
-            SignInButton signInButton = findViewById(R.id.sign_in_button);
+            signInButton = findViewById(R.id.sign_in_button);
             signInButton.setSize(SignInButton.SIZE_WIDE);
 
             findViewById(R.id.sign_in_button).setOnClickListener(this);
@@ -109,7 +116,7 @@ import com.google.firebase.database.ValueEventListener;
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithCredential:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-//                                setUserInfo();
+                                setUserInfo();
                                 updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -129,9 +136,10 @@ import com.google.firebase.database.ValueEventListener;
 
         private void updateUI(FirebaseUser user) {
             if (user != null) {
-//                setCurrentUser(user);
+                setCurrentUser(user);
                 Intent intent = new Intent(SignInActivity.this, MessengerActivity.class);
-                startActivity(intent);
+                intent.putExtra("uid", user.getUid());
+                this.startActivity(intent);
             } else {
                 findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             }
@@ -145,40 +153,40 @@ import com.google.firebase.database.ValueEventListener;
             }
         }
 
-//        public void setUserInfo() {
-//            FirebaseUser firebaseUser = mAuth.getCurrentUser();
-//            if (firebaseUser != null) {
-//                // Create new user using Firebase info
-//                final User user = new User(firebaseUser.getDisplayName(),
-//                        firebaseUser.getEmail());
-//                users.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        users.child(user.getUserName()).setValue(user);
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        Snackbar.make(findViewById(R.id.main_layout), "Error: " + databaseError.toString(), Snackbar.LENGTH_LONG).show();
-//                    }
-//                });
-//            }
-//        }
-//
-//        public void setCurrentUser(final FirebaseUser user) {
-//            users.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    Helpers.currentUser = dataSnapshot.child(user.getDisplayName()).getValue(User.class);
-//                    Log.d(TAG, "currentUser = " + Helpers.currentUser);
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//                    Snackbar.make(findViewById(R.id.main_layout), "Database error: " + databaseError.toString(), Snackbar.LENGTH_LONG).show();
-//                }
-//            });
-//        }
+        public void setUserInfo() {
+            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+            if (firebaseUser != null) {
+                // Create new user using Firebase info
+                final User user = new User(firebaseUser.getUid(), firebaseUser.getDisplayName(),
+                        firebaseUser.getEmail());
+                users.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        users.child(user.getFirebaseID()).setValue(user);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Snackbar.make(parentLayout, "Error: " + databaseError.toString(), Snackbar.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }
+
+        public void setCurrentUser(final FirebaseUser user) {
+            users.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Helpers.currentUser = dataSnapshot.child(user.getUid()).getValue(User.class);
+                    Log.d(TAG, "currentUser = " + Helpers.currentUser);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Snackbar.make(parentLayout, "Database error: " + databaseError.toString(), Snackbar.LENGTH_LONG).show();
+                }
+            });
+        }
 
         // Override back button
         @Override
