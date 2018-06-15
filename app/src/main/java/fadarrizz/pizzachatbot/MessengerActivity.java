@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,9 +60,11 @@ import ai.api.model.AIResponse;
 import ai.api.model.Result;
 import fadarrizz.pizzachatbot.Adapter.PizzaRecyclerAdapter;
 import fadarrizz.pizzachatbot.Adapter.RecyclerItemClickListener;
+import fadarrizz.pizzachatbot.Adapter.ToppingsRecyclerAdapter;
 import fadarrizz.pizzachatbot.Helpers.Helpers;
 import fadarrizz.pizzachatbot.Model.ChatMessage;
 import fadarrizz.pizzachatbot.Model.Pizza;
+import fadarrizz.pizzachatbot.Model.Topping;
 import fadarrizz.pizzachatbot.ViewHolder.PizzaViewHolder;
 
 public class MessengerActivity extends AppCompatActivity implements View.OnClickListener {
@@ -71,7 +75,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private GoogleSignInClient mGoogleSignInClient;
 
     FirebaseDatabase database;
-    DatabaseReference chatRoot, pizzaReference, messageRoot;
+    DatabaseReference chatRoot, pizzaReference, toppingsReference, messageRoot;
     String uid;
 
     RecyclerView recyclerView;
@@ -82,15 +86,17 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private AIRequest aiRequest;
     private AIDataService aiDataService;
 
-    RelativeLayout buttonLayout;
-    Button nonVegButton;
-    Button vegButton;
+    RelativeLayout buttonType, buttonToppings;
+    Button nonVegButton, vegButton, yesButton, noButton;
     Handler handler;
 
     RelativeLayout sendText;
-    private RecyclerView pizzaView;
+    private RecyclerView recyclerSelector;
     private PizzaRecyclerAdapter pizzaAdapter;
     private List<Pizza> pizzaList;
+
+    private ToppingsRecyclerAdapter toppingsAdapter;
+    private List<Topping> toppingsList;
 
     String action;
     String message = "";
@@ -112,7 +118,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView = findViewById(R.id.recyclerView);
         editText = findViewById(R.id.editText);
         addButton = findViewById(R.id.addButton);
-        buttonLayout = findViewById(R.id.buttonLayout);
+        buttonType = findViewById(R.id.buttonType);
+        buttonToppings = findViewById(R.id.buttonToppings);
 
         recyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -211,11 +218,18 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             message = editText.getText().toString().trim();
         } else if (v == nonVegButton) {
             message = "Non-vegetarian";
-            visibilityAnimation(buttonLayout, false, 150, 0);
+            visibilityAnimation(buttonType, false, 150, 0);
         } else if (v == vegButton) {
             message = "Vegetarian";
-            visibilityAnimation(buttonLayout, false, 150, 0);
+            visibilityAnimation(buttonType, false, 150, 0);
+        } else if (v == yesButton) {
+            message = "Yes";
+            visibilityAnimation(buttonToppings, false, 150, 0);
+        } else if (v == noButton) {
+            message = "No";
+            visibilityAnimation(buttonToppings, false, 150, 0);
         }
+
         sendRequestToBot(message);
     }
 
@@ -268,6 +282,9 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 break;
             case "pizza.get": setPizzas();
                 break;
+            case "anyToppings.get": getToppingChoice();
+                break;
+            case "toppings.get": setToppings();
         }
     }
 
@@ -290,7 +307,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         vegButton = findViewById(R.id.vegButton);
         vegButton.setOnClickListener(this);
 
-        visibilityAnimation(buttonLayout, true, 400, 500);
+        visibilityAnimation(buttonType, true, 400, 500);
     }
 
     /**
@@ -302,14 +319,14 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
 
         pizzaReference = database.getReference("pizza");
 
-        pizzaView = findViewById(R.id.pizzaView);
+        recyclerSelector = findViewById(R.id.recyclerSelector);
         pizzaList = new ArrayList<>();
 
-        pizzaView.setLayoutManager(new LinearLayoutManager(MessengerActivity.this,
+        recyclerSelector.setLayoutManager(new LinearLayoutManager(MessengerActivity.this,
                 LinearLayoutManager.HORIZONTAL, false));
         pizzaAdapter = new PizzaRecyclerAdapter(pizzaList);
-        pizzaView.setAdapter(pizzaAdapter);
-        visibilityAnimation(pizzaView, true, 400, 0);
+        recyclerSelector.setAdapter(pizzaAdapter);
+        visibilityAnimation(recyclerSelector, true, 400, 0);
 
         pizzaReference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -345,7 +362,67 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                         "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
-        onPizzaListener(pizzaView);
+        onPizzaListener(recyclerSelector);
+    }
+
+    public void getToppingChoice() {
+        yesButton = findViewById(R.id.yesToppings);
+        noButton = findViewById(R.id.noToppings);
+        yesButton.setOnClickListener(this);
+        noButton.setOnClickListener(this);
+
+        visibilityAnimation(buttonToppings, true, 400, 500);
+    }
+
+    public void setToppings() {
+        sendText = findViewById(R.id.sendText);
+        visibilityAnimation(sendText, true, 400, 0);
+
+        toppingsReference = database.getReference("toppings");
+
+        toppingsList = new ArrayList<>();
+        recyclerSelector.setLayoutManager(new LinearLayoutManager(MessengerActivity.this,
+                LinearLayoutManager.VERTICAL, false));
+        toppingsAdapter = new ToppingsRecyclerAdapter(toppingsList);
+        recyclerSelector.setAdapter(toppingsAdapter);
+        visibilityAnimation(recyclerSelector, true, 400, 0);
+
+        toppingsReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                try {
+                    Topping model = dataSnapshot.getValue(Topping.class);
+                    toppingsList.add(model);
+                    toppingsAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w(TAG, "onCancelled", databaseError.toException());
+                Toast.makeText(getApplicationContext(),
+                        "Failed to load data", Toast.LENGTH_SHORT).show();
+            }
+        });
+        onToppingsListener(recyclerSelector);
+
     }
 
     /**
@@ -356,10 +433,23 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        visibilityAnimation(pizzaView, false, 400, 0);
+                        visibilityAnimation(recyclerSelector, false, 400, 0);
                         TextView pizza = view.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.pizzaName);
                         String pizzaName = pizza.getText().toString();
                         sendRequestToBot(pizzaName);
+                    }
+                })
+        );
+    }
+
+    public void onToppingsListener(final RecyclerView view) {
+        view.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        Button extra = view.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.toppingButton);
+                        String extraName = extra.getText().toString();
+                        sendRequestToBot(extraName);
                     }
                 })
         );
