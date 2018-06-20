@@ -10,10 +10,12 @@
         android:id="@+id/message_bot"
         android:background="@drawable/message_bot"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginStart="15dp"
         android:padding="10dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:text="Hello"
+        android:elevation="1dp"
         />
 
 
@@ -24,11 +26,13 @@
         android:background="@drawable/message_user"
         android:textColor="#fff"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginEnd="15dp"
         android:padding="10dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_alignParentEnd="true"
         android:text="Hello"
+        android:elevation="1dp"
         />
 
 </RelativeLayout>

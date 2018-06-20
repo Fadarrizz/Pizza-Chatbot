@@ -9,7 +9,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonType"
+        android:layout_above="@+id/buttonLayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:background="#FFFAFAFA"
@@ -20,7 +20,7 @@
     </android.support.v7.widget.RecyclerView>
 
     <RelativeLayout
-        android:id="@+id/buttonType"
+        android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/sendText"
@@ -29,51 +29,22 @@
         android:visibility="gone">
 
         <Button
-            android:id="@+id/nonVegButton"
+            android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="96dp"
-            android:text="@string/nonVeg" />
+            android:text="" />
 
         <Button
-            android:id="@+id/vegButton"
+            android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="end"
-            android:text="@string/Veg" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/buttonToppings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/sendText"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/yesToppings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="96dp"
-            android:text="Yes" />
-
-        <Button
-            android:id="@+id/noToppings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="end"
-            android:text="No" />
+            android:text="" />
 
     </RelativeLayout>
 
@@ -83,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
         android:layout_alignParentStart="true"
-        android:layout_above="@id/pizzaSelector">
+        android:layout_above="@id/layoutSelector">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -94,7 +65,7 @@
             android:layout_marginStart="5dp"
             android:layout_toStartOf="@+id/addButton"
             android:background="@drawable/back_addtask"
-            android:elevation="2dp">
+            android:elevation="1dp">
 
             <EditText
                 android:id="@+id/editText"
@@ -131,15 +102,32 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/pizzaSelector"
+        android:id="@+id/layoutSelector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="130dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"
+        android:layout_above="@+id/toppingsLayout">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerSelector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/toppingsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:visibility="visible">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerSelector"
+            android:id="@+id/toppingsSelector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

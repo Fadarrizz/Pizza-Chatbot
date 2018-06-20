@@ -52,7 +52,6 @@ import fadarrizz.pizzachatbot.Model.User;
             setContentView(R.layout.activity_sign_in);
             parentLayout = findViewById(android.R.id.content);
 
-            //Todo: Link auth users to database
 
             database = FirebaseDatabase.getInstance();
             users = database.getReference("users");
@@ -172,7 +171,7 @@ import fadarrizz.pizzachatbot.Model.User;
                 });
             }
         }
-
+        //TODO: Can be deleted?
         public void setCurrentUser(final FirebaseUser user) {
             users.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

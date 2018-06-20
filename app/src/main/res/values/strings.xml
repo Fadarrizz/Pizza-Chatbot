@@ -3,7 +3,19 @@
     <string name="input_hint">Type a message</string>
     <string name="nonVeg">Non-veg</string>
     <string name="Veg">Veg</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
     <string name="Price">€ %1$s</string>
     <string name="action_clear_log">Clear message log</string>
     <string name="action_sign_out">Sign out</string>
+    <string name="title_activity_bottom_nav">BottomNavActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main_tab">MainTabActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
