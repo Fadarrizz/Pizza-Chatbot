@@ -136,7 +136,7 @@ import fadarrizz.pizzachatbot.Model.User;
         private void updateUI(FirebaseUser user) {
             if (user != null) {
                 setCurrentUser(user);
-                Intent intent = new Intent(SignInActivity.this, MessengerActivity.class);
+                Intent intent = new Intent(SignInActivity.this, TabActivity.class);
                 intent.putExtra("uid", user.getUid());
                 this.startActivity(intent);
             } else {
