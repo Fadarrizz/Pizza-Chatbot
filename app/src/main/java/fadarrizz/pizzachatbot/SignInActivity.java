@@ -135,7 +135,6 @@ import fadarrizz.pizzachatbot.Model.User;
 
         private void updateUI(FirebaseUser user) {
             if (user != null) {
-                setCurrentUser(user);
                 Intent intent = new Intent(SignInActivity.this, TabActivity.class);
                 intent.putExtra("uid", user.getUid());
                 this.startActivity(intent);
@@ -170,21 +169,6 @@ import fadarrizz.pizzachatbot.Model.User;
                     }
                 });
             }
-        }
-        //TODO: Can be deleted?
-        public void setCurrentUser(final FirebaseUser user) {
-            users.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Helpers.currentUser = dataSnapshot.child(user.getUid()).getValue(User.class);
-                    Log.d(TAG, "currentUser = " + Helpers.currentUser);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Snackbar.make(parentLayout, "Database error: " + databaseError.toString(), Snackbar.LENGTH_LONG).show();
-                }
-            });
         }
 
         // Override back button
