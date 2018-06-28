@@ -5,6 +5,8 @@
 With this application pizza's can be ordered and customized by chatting with a chatbot.
 Users can see their placed orders in the 'Order' tab.
 
+![screenshot](https://github.com/Fadarrizz/Pizza-Chatbot/blob/master/doc/App.png "Screenshot")
+
 ## External sources
 The chatbot is handled by Dialogflow.
 https://dialogflow.com/
