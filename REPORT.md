@@ -3,6 +3,8 @@
 ## Description
 The pizzaChatbot application makes it quick and easy to order pizza's. Once logged in with Google, the user can start ordering a pizza by asking the bot. When an order is placed, it can be found in the tab 'Order'.
 
+![screenshot](https://github.com/Fadarrizz/Pizza-Chatbot/blob/master/doc/App.png "Screenshot")
+
 ## Technical design
 
 ### Sign in
